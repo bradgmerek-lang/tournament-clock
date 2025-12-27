@@ -6,6 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* ---------------------------------------------------------
+   ROOT VARIABLES
+--------------------------------------------------------- */
 :root {
     --bg: #050609;
     --panel: #111824;
@@ -23,6 +26,9 @@
     --overlay-bg: rgba(0,0,0,0.85);
 }
 
+/* ---------------------------------------------------------
+   GLOBAL
+--------------------------------------------------------- */
 * { box-sizing: border-box; }
 
 body {
@@ -66,6 +72,9 @@ body {
 
 .panel-inner { position: relative; z-index: 1; }
 
+/* ---------------------------------------------------------
+   HEADERS
+--------------------------------------------------------- */
 h2, h3 {
     margin: 0 0 10px;
     font-weight: 600;
@@ -75,7 +84,9 @@ h2, h3 {
 h2 { font-size: 14px; color: var(--text-sub); }
 h3 { font-size: 13px; color: var(--text-sub); }
 
-/* Editable title */
+/* ---------------------------------------------------------
+   EDITABLE TITLE
+--------------------------------------------------------- */
 #editableTitle {
     font-size: 26px;
     font-weight: 700;
@@ -93,7 +104,9 @@ h3 { font-size: 13px; color: var(--text-sub); }
     background: rgba(0,212,255,0.08);
 }
 
-/* TIMER AREA */
+/* ---------------------------------------------------------
+   TIMER AREA
+--------------------------------------------------------- */
 .main-timer {
     display: flex;
     flex-direction: column;
@@ -158,7 +171,9 @@ h3 { font-size: 13px; color: var(--text-sub); }
     border: 1px solid rgba(0,212,255,0.35);
 }
 
-/* INFO CARDS */
+/* ---------------------------------------------------------
+   INFO CARDS
+--------------------------------------------------------- */
 .info-row {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -199,7 +214,9 @@ h3 { font-size: 13px; color: var(--text-sub); }
     color: var(--text-sub);
 }
 
-/* PLAYERS & CHIPS */
+/* ---------------------------------------------------------
+   PLAYERS & CHIPS
+--------------------------------------------------------- */
 .secondary-row {
     display: grid;
     grid-template-columns: 1.2fr 1.8fr;
@@ -244,7 +261,9 @@ h3 { font-size: 13px; color: var(--text-sub); }
     color: var(--accent);
 }
 
-/* CHIP CONFIG – LARGE ICONS */
+/* ---------------------------------------------------------
+   CHIP CONFIG
+--------------------------------------------------------- */
 .chip-config-card {
     background: rgba(12,16,32,0.9);
     border-radius: 12px;
@@ -284,7 +303,9 @@ h3 { font-size: 13px; color: var(--text-sub); }
     font-size: 24px;
 }
 
-/* QR PANEL */
+/* ---------------------------------------------------------
+   QR PANEL
+--------------------------------------------------------- */
 .qr-panel {
     margin-top: 10px;
     padding: 10px;
@@ -302,7 +323,9 @@ h3 { font-size: 13px; color: var(--text-sub); }
     color: var(--accent);
 }
 
-/* BUTTONS */
+/* ---------------------------------------------------------
+   BUTTONS
+--------------------------------------------------------- */
 .controls-row {
     display: flex;
     gap: 10px;
@@ -359,7 +382,9 @@ button:disabled {
     cursor: default;
 }
 
-/* SOUND TOGGLE */
+/* ---------------------------------------------------------
+   SOUND TOGGLE
+--------------------------------------------------------- */
 .sound-toggle {
     margin-left: 10px;
     cursor: pointer;
@@ -370,7 +395,9 @@ button:disabled {
     border: 1px solid rgba(255,255,255,0.15);
 }
 
-/* LEVEL EDITOR */
+/* ---------------------------------------------------------
+   LEVEL EDITOR
+--------------------------------------------------------- */
 .editor-header {
     display: flex;
     justify-content: space-between;
@@ -432,7 +459,9 @@ button:disabled {
     gap: 4px;
 }
 
-/* GENERIC FORM */
+/* ---------------------------------------------------------
+   GENERIC FORM
+--------------------------------------------------------- */
 .config-row {
     display: flex;
     gap: 8px;
@@ -467,7 +496,9 @@ textarea {
     font-size: 10px;
 }
 
-/* PRIZE / PAYOUT */
+/* ---------------------------------------------------------
+   PAYOUTS
+--------------------------------------------------------- */
 .prize-panel {
     margin-top: 16px;
     padding-top: 12px;
@@ -494,11 +525,6 @@ textarea {
     font-size: 12px;
 }
 
-.payout-display {
-    font-size: 12px;
-    color: var(--text-sub);
-}
-
 .payout-delete {
     background: rgba(255,75,92,0.2);
     color: #ffd8dd;
@@ -508,7 +534,9 @@ textarea {
     font-size: 11px;
 }
 
-/* SEAT DRAW */
+/* ---------------------------------------------------------
+   SEAT DRAW
+--------------------------------------------------------- */
 .seat-draw-panel {
     margin-top: 16px;
     padding-top: 12px;
@@ -535,7 +563,9 @@ textarea {
     justify-content: space-between;
 }
 
-/* PLAYERS EDITOR */
+/* ---------------------------------------------------------
+   PLAYERS EDITOR
+--------------------------------------------------------- */
 .players-editor-panel {
     margin-top: 16px;
     padding-top: 12px;
@@ -553,6 +583,7 @@ textarea {
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 6px;
+    align-items
     align-items: center;
     padding: 4px 6px;
     border-radius: 8px;
@@ -572,7 +603,9 @@ textarea {
     gap: 4px;
 }
 
-/* SUMMARY ROW */
+/* ---------------------------------------------------------
+   SUMMARY ROW
+--------------------------------------------------------- */
 .summary-row {
     display: flex;
     flex-wrap: wrap;
@@ -587,7 +620,10 @@ textarea {
     padding: 6px 10px;
     border: 1px solid rgba(255,255,255,0.08);
 }
-/* TOAST */
+
+/* ---------------------------------------------------------
+   TOAST
+--------------------------------------------------------- */
 .toast {
     position: fixed;
     bottom: 18px;
@@ -613,7 +649,9 @@ textarea {
     transform: translateY(0);
 }
 
-/* RESPONSIVE */
+/* ---------------------------------------------------------
+   RESPONSIVE
+--------------------------------------------------------- */
 @media (max-width: 900px) {
     .app-container { 
         grid-template-columns: 1fr; 
@@ -629,7 +667,9 @@ textarea {
     }
 }
 
-/* LARGE SEAT DRAW (NEW TAB) */
+/* ---------------------------------------------------------
+   LARGE SEAT DRAW (NEW TAB)
+--------------------------------------------------------- */
 .large-seat-body {
     background:#000;
     color:#fff;
@@ -658,7 +698,9 @@ textarea {
     padding:6px 0;
 }
 
-/* VIEWER MODE — BROADCAST LAYOUT */
+/* ---------------------------------------------------------
+   VIEWER MODE — CHIP BAR
+--------------------------------------------------------- */
 .viewer-chip-bar {
     display: flex;
     gap: 12px;
@@ -689,7 +731,9 @@ textarea {
     font-weight: 600;
 }
 
-/* FULL-SCREEN DETAILS OVERLAY */
+/* ---------------------------------------------------------
+   DETAILS OVERLAY
+--------------------------------------------------------- */
 #detailsOverlay {
     position: fixed;
     inset: 0;
@@ -756,7 +800,9 @@ textarea {
     border-bottom: none;
 }
 
-/* SIMPLE VIEW MODE */
+/* ---------------------------------------------------------
+   SIMPLE VIEW MODE
+--------------------------------------------------------- */
 .simple-view .panel:nth-child(2) {
     display: none;
 }
@@ -767,7 +813,9 @@ textarea {
     pointer-events: none;
 }
 
-/* VIEWER MODE HIDES ALL CONTROLS */
+/* ---------------------------------------------------------
+   VIEWER MODE HIDES CONTROLS
+--------------------------------------------------------- */
 .viewer-mode button,
 .viewer-mode input,
 .viewer-mode select,
@@ -787,8 +835,11 @@ textarea {
     display: none !important;
 }
 
-/* VIEWER MODE — SHOW DETAILS BUTTON */
-#btnShowDetails {
+/* ---------------------------------------------------------
+   VIEWER MODE — SHOW DETAILS & SIMPLE VIEW BUTTONS
+--------------------------------------------------------- */
+#btnShowDetails,
+#btnToggleSimpleView {
     margin-top: 12px;
     padding: 10px 18px;
     font-size: 14px;
@@ -800,7 +851,8 @@ textarea {
     display: none;
 }
 
-.viewer-mode #btnShowDetails {
+.viewer-mode #btnShowDetails,
+.viewer-mode #btnToggleSimpleView {
     display: inline-flex;
 }
 </style>
@@ -816,7 +868,7 @@ textarea {
 <body>
 <div class="app-container" id="appContainer">
 
-    <!-- LEFT SIDE (TIMER + VIEWER CHIP BAR + SHOW DETAILS BUTTON) -->
+    <!-- LEFT SIDE -->
     <div class="panel" id="leftPanel">
         <div class="panel-inner main-timer">
 
@@ -876,7 +928,7 @@ textarea {
                     </div>
                 </div>
 
-                <!-- CHIP CONFIG (Controller) -->
+                <!-- CHIP CONFIG -->
                 <div class="chip-config-card" id="chipConfigCard">
                     <div class="chip-config-header">
                         <div class="info-label">Chip colors & values</div>
@@ -906,11 +958,12 @@ textarea {
                 </div>
             </div>
 
-            <!-- VIEWER CHIP BAR (always visible in viewer mode) -->
+            <!-- VIEWER CHIP BAR -->
             <div id="viewerChipBar" class="viewer-chip-bar" style="display:none;"></div>
 
-            <!-- SHOW DETAILS BUTTON (viewer mode only) -->
+            <!-- VIEWER BUTTONS -->
             <button id="btnShowDetails">Show Details</button>
+            <button id="btnToggleSimpleView">Simple View</button>
 
             <!-- CONTROLS -->
             <div class="controls-row">
@@ -955,10 +1008,10 @@ textarea {
                 <button id="btnSuggestBlinds" class="small">Suggest Blinds</button>
             </div>
 
-            <!-- QR toggle -->
             <div class="controls-row">
                 <button id="btnToggleQR" class="small">📱 Show QR Code</button>
             </div>
+
             <div class="qr-panel" id="qrPanel">
                 <h3>Scan to open clock</h3>
                 <canvas id="qrCanvas" width="180" height="180" style="margin-top:4px;"></canvas>
@@ -972,102 +1025,101 @@ textarea {
 
         </div>
     </div>
-
-    <!-- RIGHT SIDE (CONTROLLER ONLY) -->
-    <div class="panel" id="rightPanel">
-        <div class="panel-inner">
-            <div class="editor-header">
-                <div>
-                    <h2>Tournament structure</h2>
-                    <h3>Levels & breaks</h3>
-                </div>
-                <div>
-                    <button id="btnAddLevel" class="small">＋ Add level</button>
-                    <button id="btnInsertBreak" class="small">☕ Insert break</button>
-                </div>
+<!-- RIGHT SIDE (CONTROLLER ONLY) -->
+<div class="panel" id="rightPanel">
+    <div class="panel-inner">
+        <div class="editor-header">
+            <div>
+                <h2>Tournament structure</h2>
+                <h3>Levels & breaks</h3>
             </div>
-
-            <div class="editor-body" id="levelsContainer"></div>
-
-            <div class="config-row">
-                <div>
-                    <div class="config-label">Config name</div>
-                    <input type="text" id="configName" placeholder="My Home Game">
-                </div>
-                <div>
-                    <div class="config-label">Saved structures</div>
-                    <select id="savedConfigs">
-                        <option value="">Load structure…</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="config-row">
-                <button id="btnSaveConfig">💾 Save</button>
-                <button id="btnLoadConfig">📂 Load</button>
-                <button id="btnDeleteConfig" class="danger small">🗑 Delete</button>
-                <button id="btnLoadDefault" class="small">♻ Default</button>
-            </div>
-
-            <div class="prize-panel">
-                <h3>Prize pool & payouts</h3>
-
-                <div class="config-row">
-                    <div>
-                        <div class="config-label">Entry fee</div>
-                        <input type="number" id="inputEntryFee" placeholder="e.g. 50" style="width:120px;">
-                    </div>
-                    <div>
-                        <div class="config-label">Total prize money</div>
-                        <input type="number" id="inputPrizeMoney" placeholder="auto" style="width:140px;" disabled>
-                    </div>
-                    <div>
-                        <div class="config-label">Number of payouts</div>
-                        <input type="number" id="inputNumPayouts" value="3" min="1" style="width:80px;">
-                    </div>
-                </div>
-
-                <div class="config-row">
-                    <button id="btnRegenPayouts" class="small">↻ Regenerate model A payouts</button>
-                </div>
-
-                <div id="payoutList" style="margin-top:10px; max-height:160px; overflow-y:auto;"></div>
-            </div>
-
-            <div class="seat-draw-panel">
-                <h3>Random seat draw</h3>
-                <div class="config-row">
-                    <div>
-                        <div class="config-label">Tables</div>
-                        <input type="number" id="inputTables" value="2" min="1" style="width:60px;">
-                    </div>
-                    <div>
-                        <div class="config-label">Seats/table</div>
-                        <input type="number" id="inputSeatsPerTable" value="9" min="1" style="width:70px;">
-                    </div>
-                    <div>
-                        <div class="config-label">Players used</div>
-                        <span style="font-size:11px;color:var(--text-sub);">Active players only</span>
-                    </div>
-                </div>
-                <div class="config-row">
-                    <button id="btnSeatDraw">🎲 Generate seat draw</button>
-                </div>
-                <div class="seat-draw-results" id="seatDrawResults"></div>
-            </div>
-
-            <div class="players-editor-panel">
-                <h3>Players (names & busted)</h3>
-                <div class="config-row">
-                    <button id="btnSyncPlayersCount" class="small">↻ Sync with players entered</button>
-                    <span style="font-size:11px;color:var(--text-sub);">Uncheck to mark busted.</span>
-                </div>
-                <div class="players-editor-list" id="playersEditor"></div>
+            <div>
+                <button id="btnAddLevel" class="small">＋ Add level</button>
+                <button id="btnInsertBreak" class="small">☕ Insert break</button>
             </div>
         </div>
-    </div>
 
+        <div class="editor-body" id="levelsContainer"></div>
+
+        <div class="config-row">
+            <div>
+                <div class="config-label">Config name</div>
+                <input type="text" id="configName" placeholder="My Home Game">
+            </div>
+            <div>
+                <div class="config-label">Saved structures</div>
+                <select id="savedConfigs">
+                    <option value="">Load structure…</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="config-row">
+            <button id="btnSaveConfig">💾 Save</button>
+            <button id="btnLoadConfig">📂 Load</button>
+            <button id="btnDeleteConfig" class="danger small">🗑 Delete</button>
+            <button id="btnLoadDefault" class="small">♻ Default</button>
+        </div>
+
+        <div class="prize-panel">
+            <h3>Prize pool & payouts</h3>
+
+            <div class="config-row">
+                <div>
+                    <div class="config-label">Entry fee</div>
+                    <input type="number" id="inputEntryFee" placeholder="e.g. 50" style="width:120px;">
+                </div>
+                <div>
+                    <div class="config-label">Total prize money</div>
+                    <input type="number" id="inputPrizeMoney" placeholder="auto" style="width:140px;" disabled>
+                </div>
+                <div>
+                    <div class="config-label">Number of payouts</div>
+                    <input type="number" id="inputNumPayouts" value="3" min="1" style="width:80px;">
+                </div>
+            </div>
+
+            <div class="config-row">
+                <button id="btnRegenPayouts" class="small">↻ Regenerate model A payouts</button>
+            </div>
+
+            <div id="payoutList" style="margin-top:10px; max-height:160px; overflow-y:auto;"></div>
+        </div>
+
+        <div class="seat-draw-panel">
+            <h3>Random seat draw</h3>
+            <div class="config-row">
+                <div>
+                    <div class="config-label">Tables</div>
+                    <input type="number" id="inputTables" value="2" min="1" style="width:60px;">
+                </div>
+                <div>
+                    <div class="config-label">Seats/table</div>
+                    <input type="number" id="inputSeatsPerTable" value="9" min="1" style="width:70px;">
+                </div>
+                <div>
+                    <div class="config-label">Players used</div>
+                    <span style="font-size:11px;color:var(--text-sub);">Active players only</span>
+                </div>
+            </div>
+            <div class="config-row">
+                <button id="btnSeatDraw">🎲 Generate seat draw</button>
+            </div>
+            <div class="seat-draw-results" id="seatDrawResults"></div>
+        </div>
+
+        <div class="players-editor-panel">
+            <h3>Players (names & busted)</h3>
+            <div class="config-row">
+                <button id="btnSyncPlayersCount" class="small">↻ Sync with players entered</button>
+                <span style="font-size:11px;color:var(--text-sub);">Uncheck to mark busted.</span>
+            </div>
+            <div class="players-editor-list" id="playersEditor"></div>
+        </div>
+    </div>
 </div>
+
+</div> <!-- end app-container -->
 
 <!-- FULL-SCREEN DETAILS OVERLAY -->
 <div id="detailsOverlay">
@@ -1120,11 +1172,9 @@ const db = firebase.database();
 --------------------------------------------------------- */
 const urlParams = new URLSearchParams(window.location.search);
 let tournamentId = urlParams.get("tournament");
-let mode = urlParams.get("mode") || "control"; // control or view
+let mode = urlParams.get("mode") || "control";
 
-// Option B: Keep same ID unless user clicks "New Tournament"
 if (!tournamentId) {
-    // Load from localStorage if exists
     const savedId = localStorage.getItem("tournamentId");
     if (savedId) {
         tournamentId = savedId;
@@ -1211,6 +1261,7 @@ const playersEditor = document.getElementById("playersEditor");
 
 const viewerChipBar = document.getElementById("viewerChipBar");
 const btnShowDetails = document.getElementById("btnShowDetails");
+const btnToggleSimpleView = document.getElementById("btnToggleSimpleView");
 
 const detailsOverlay = document.getElementById("detailsOverlay");
 const detailsClose = document.getElementById("detailsClose");
@@ -1240,8 +1291,9 @@ let chipIconMode = "emoji";
 let numChipColors = 3;
 
 let payouts = [];
-
 let qrInstance = null;
+
+let isSimpleView = false;
 
 /* ---------------------------------------------------------
    UTILITY FUNCTIONS
@@ -1263,7 +1315,6 @@ function playChime(type) {
     if (type === "warning") warningBeep.play();
     else levelBeep.play();
 }
-
 /* ---------------------------------------------------------
    CHIP ICON RENDERING
 --------------------------------------------------------- */
@@ -1315,8 +1366,9 @@ function renderChipConfig() {
         chipConfigRows.appendChild(row);
     }
 }
+
 /* ---------------------------------------------------------
-   VIEWER CHIP BAR (ALWAYS VISIBLE IN VIEW MODE)
+   VIEWER CHIP BAR
 --------------------------------------------------------- */
 function renderViewerChipBar() {
     if (mode !== "view") {
@@ -1346,7 +1398,24 @@ function renderViewerChipBar() {
 }
 
 /* ---------------------------------------------------------
-   DETAILS OVERLAY (BLIND SCHEDULE + PAYOUTS)
+   SIMPLE VIEW MODE
+--------------------------------------------------------- */
+function applySimpleViewClass() {
+    if (isSimpleView) {
+        appContainer.classList.add("simple-view");
+    } else {
+        appContainer.classList.remove("simple-view");
+    }
+}
+
+btnToggleSimpleView.addEventListener("click", () => {
+    isSimpleView = !isSimpleView;
+    btnToggleSimpleView.textContent = isSimpleView ? "Full View" : "Simple View";
+    applySimpleViewClass();
+});
+
+/* ---------------------------------------------------------
+   DETAILS OVERLAY
 --------------------------------------------------------- */
 function openDetailsOverlay() {
     detailsOverlay.classList.add("visible");
@@ -1587,6 +1656,7 @@ function updateAverageStack() {
     const avg = remaining > 0 ? Math.floor(totalChips / remaining) : 0;
     avgStackEl.textContent = avg;
 }
+
 /* ---------------------------------------------------------
    PAYOUTS
 --------------------------------------------------------- */
@@ -1594,12 +1664,7 @@ function regeneratePayoutsFromModel() {
     const num = parseInt(inputNumPayouts.value) || 0;
     payouts = [];
 
-    // Model A: descending percentages that sum to 100%
-    const base = 100;
-    let remaining = base;
     let totalWeight = 0;
-
-    // Weighting: 1st gets most, last gets least
     for (let i = 1; i <= num; i++) {
         totalWeight += (num - i + 1);
     }
@@ -1610,7 +1675,6 @@ function regeneratePayoutsFromModel() {
         payouts.push({ place: i, percent: pct, amount: 0 });
     }
 
-    // Fix rounding to exactly 100%
     let sum = payouts.reduce((a,p) => a + p.percent, 0);
     if (sum !== 100) {
         payouts[0].percent += (100 - sum);
@@ -1624,7 +1688,6 @@ function regeneratePayoutsFromModel() {
 function normalizePayoutPercents() {
     let sum = payouts.reduce((a,p) => a + p.percent, 0);
     if (sum === 100) return;
-
     const diff = 100 - sum;
     payouts[0].percent += diff;
 }
@@ -1794,7 +1857,8 @@ function getFullState() {
         levelsState: getLevelsState(),
         playersState: getPlayersState(),
         chipState: getChipState(),
-        payoutState: getPayoutState()
+        payoutState: getPayoutState(),
+        simpleView: isSimpleView
     };
 }
 
@@ -1810,14 +1874,14 @@ function pushStateToFirebase() {
 function applyStateFromFirebase(snapshotVal) {
     if (!snapshotVal) return;
 
-    const { meta, levelsState, playersState, chipState, payoutState } = snapshotVal;
+    const { meta, levelsState, playersState, chipState, payoutState, simpleView } = snapshotVal;
 
     // Title
     if (meta && meta.title) {
         editableTitle.value = meta.title;
     }
 
-    // Levels & timer
+    // Levels & timer (FIXED: no timer reset)
     if (levelsState) {
         levels = levelsState.levels || [];
         currentLevelIndex = levelsState.currentLevelIndex || 0;
@@ -1825,356 +1889,10 @@ function applyStateFromFirebase(snapshotVal) {
         timerTotalSeconds = levelsState.timerTotalSeconds || 0;
 
         renderLevels();
-        if (levels.length) initLevel(currentLevelIndex);
-        updateTimerDisplay();
-    }
 
-    // Players
-    if (playersState) {
-        players = playersState.players || [];
-        playersEnteredEl.textContent = playersState.entered ?? players.length;
-        playersRemainingEl.textContent = playersState.remaining ?? players.filter(p => p.active).length;
-        renderPlayersEditor();
-        updateAverageStack();
-    }
+        const lvl = levels[currentLevelIndex];
+        if (lvl) {
+            currentLevelNumberEl.textContent = currentLevelIndex + 1;
+            currentLevelMinutesEl.textContent = lvl.minutes;
 
-    // Chips
-    if (chipState) {
-        chipIconMode = chipState.iconMode || "emoji";
-        chipIconModeSelect.value = chipIconMode;
-        numChipColors = chipState.numChipColors || 3;
-        numChipsSelect.value = String(numChipColors);
-
-        if (Array.isArray(chipState.chips)) {
-            chipConfigs = chipState.chips.map(c => ({ color: c.color, value: c.value }));
-        }
-
-        renderChipConfig();
-        renderViewerChipBar();
-    }
-
-    // Payouts
-    if (payoutState) {
-        inputEntryFee.value = payoutState.entryFee ?? 0;
-        payouts = payoutState.payouts || [];
-        normalizePayoutPercents();
-        renderPayouts();
-        updatePrizePool();
-    }
-
-    // Details overlay content
-    renderDetailsOverlay();
-}
-
-/* ---------------------------------------------------------
-   DETAILS OVERLAY CONTENT
---------------------------------------------------------- */
-function renderDetailsOverlay() {
-    // Chip values
-    detailsChipList.innerHTML = "";
-    chipConfigs.forEach(cfg => {
-        const row = document.createElement("div");
-        row.className = "details-blind-row";
-        row.innerHTML = `
-            <span>${chipIconMode === "emoji" ? "🟢" : ""}</span>
-            <span>${cfg.value}</span>
-        `;
-        detailsChipList.appendChild(row);
-    });
-
-    // Blind schedule
-    detailsBlindList.innerHTML = "";
-    levels.forEach((lvl, i) => {
-        const row = document.createElement("div");
-        row.className = "details-blind-row";
-        row.innerHTML = lvl.type === "break"
-            ? `<span>Break</span><span>${lvl.minutes} min</span>`
-            : `<span>Level ${i+1}</span><span>${lvl.sb} / ${lvl.bb}${lvl.ante ? " / " + lvl.ante : ""}</span>`;
-        detailsBlindList.appendChild(row);
-    });
-
-    // Payouts
-    detailsPayoutList.innerHTML = "";
-    payouts.forEach(p => {
-        const row = document.createElement("div");
-        row.className = "details-payout-row";
-        row.innerHTML = `
-            <span>${p.place}${p.place===1?"st":p.place===2?"nd":p.place===3?"rd":"th"}</span>
-            <span>${p.percent}% — $${p.amount}</span>
-        `;
-        detailsPayoutList.appendChild(row);
-    });
-}
-/* ---------------------------------------------------------
-   LOAD / SAVE CONFIGS (LOCAL STORAGE)
---------------------------------------------------------- */
-const STORAGE_KEY = "tournamentStructures";
-
-function loadSavedConfigs() {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
-
-    const list = JSON.parse(raw);
-    savedConfigs.innerHTML = `<option value="">Load structure…</option>`;
-    Object.keys(list).forEach(name => {
-        const opt = document.createElement("option");
-        opt.value = name;
-        opt.textContent = name;
-        savedConfigs.appendChild(opt);
-    });
-}
-
-function saveConfig() {
-    const name = configName.value.trim();
-    if (!name) {
-        showToast("Enter a config name first");
-        return;
-    }
-
-    const raw = localStorage.getItem(STORAGE_KEY);
-    const list = raw ? JSON.parse(raw) : {};
-
-    list[name] = {
-        levels,
-        chipConfigs,
-        chipIconMode,
-        numChipColors,
-        payouts,
-        entryFee: parseFloat(inputEntryFee.value) || 0
-    };
-
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-    loadSavedConfigs();
-    showToast("Saved");
-}
-
-function loadConfig() {
-    const name = savedConfigs.value;
-    if (!name) {
-        showToast("Choose a saved config");
-        return;
-    }
-
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
-
-    const list = JSON.parse(raw);
-    const cfg = list[name];
-    if (!cfg) return;
-
-    levels = cfg.levels || [];
-    chipConfigs = cfg.chipConfigs || [];
-    chipIconMode = cfg.chipIconMode || "emoji";
-    numChipColors = cfg.numChipColors || 3;
-    payouts = cfg.payouts || [];
-    inputEntryFee.value = cfg.entryFee || 0;
-
-    chipIconModeSelect.value = chipIconMode;
-    numChipsSelect.value = numChipColors;
-
-    renderChipConfig();
-    renderLevels();
-    renderPayouts();
-    updatePrizePool();
-    pushStateToFirebase();
-    showToast("Loaded");
-}
-
-function deleteConfig() {
-    const name = savedConfigs.value;
-    if (!name) {
-        showToast("Choose a config to delete");
-        return;
-    }
-
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
-
-    const list = JSON.parse(raw);
-    delete list[name];
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-    loadSavedConfigs();
-    showToast("Deleted");
-}
-
-/* ---------------------------------------------------------
-   DEFAULT STRUCTURE
---------------------------------------------------------- */
-function loadDefaultStructure() {
-    levels = [
-        { type:"level", sb:25, bb:50, ante:0, minutes:20 },
-        { type:"level", sb:50, bb:100, ante:0, minutes:20 },
-        { type:"level", sb:75, bb:150, ante:0, minutes:20 },
-        { type:"break", sb:0, bb:0, ante:0, minutes:10 },
-        { type:"level", sb:100, bb:200, ante:0, minutes:20 }
-    ];
-
-    chipConfigs = [
-        { color:"#ffffff", value:25 },
-        { color:"#00ff00", value:100 },
-        { color:"#ff0000", value:500 }
-    ];
-
-    payouts = [
-        { place:1, percent:50, amount:0 },
-        { place:2, percent:30, amount:0 },
-        { place:3, percent:20, amount:0 }
-    ];
-
-    renderChipConfig();
-    renderLevels();
-    renderPayouts();
-    updatePrizePool();
-    pushStateToFirebase();
-}
-
-/* ---------------------------------------------------------
-   SUGGEST BLINDS (MODEL)
---------------------------------------------------------- */
-function suggestBlinds() {
-    const duration = parseFloat(inputDuration.value) || 4;
-    const levelLength = parseInt(inputLevelLength.value) || 20;
-    const switchBB = parseInt(inputSwitchBB.value) || 400;
-
-    const numLevels = Math.floor((duration * 60) / levelLength);
-    const breakFreq = parseInt(inputBreakFrequency.value) || 3;
-    const breakMinutes = parseInt(inputBreakMinutes.value) || 10;
-
-    const structure = [];
-    let sb = 25;
-    let bb = 50;
-
-    for (let i = 1; i <= numLevels; i++) {
-        if (i % breakFreq === 0) {
-            structure.push({ type:"break", sb:0, bb:0, ante:0, minutes:breakMinutes });
-        } else {
-            structure.push({ type:"level", sb, bb, ante:0, minutes:levelLength });
-            sb = Math.floor(sb * 1.8);
-            bb = Math.floor(bb * 1.8);
-            if (bb < switchBB) bb = switchBB;
-        }
-    }
-
-    levels = structure;
-    renderLevels();
-    pushStateToFirebase();
-}
-
-/* ---------------------------------------------------------
-   EVENT LISTENERS
---------------------------------------------------------- */
-btnStartPause.addEventListener("click", () => {
-    if (timerInterval) pauseTimer();
-    else startTimer();
-    pushStateToFirebase();
-});
-
-btnReset.addEventListener("click", () => {
-    resetTimer();
-    showToast("Timer reset");
-});
-
-btnPrevLevel.addEventListener("click", () => {
-    goToPrevLevel();
-});
-
-btnNextLevel.addEventListener("click", () => {
-    goToNextLevel();
-});
-
-btnSuggestBlinds.addEventListener("click", () => {
-    suggestBlinds();
-    showToast("Blinds suggested");
-});
-
-btnToggleQR.addEventListener("click", () => {
-    qrPanel.style.display = qrPanel.style.display === "none" ? "block" : "none";
-});
-
-btnSaveConfig.addEventListener("click", saveConfig);
-btnLoadConfig.addEventListener("click", loadConfig);
-btnDeleteConfig.addEventListener("click", deleteConfig);
-btnLoadDefault.addEventListener("click", loadDefaultStructure);
-
-inputPlayersEntered.addEventListener("input", createPlayersFromEntered);
-inputEntryFee.addEventListener("input", updatePrizePool);
-inputNumPayouts.addEventListener("input", regeneratePayoutsFromModel);
-
-btnRegenPayouts.addEventListener("click", regeneratePayoutsFromModel);
-
-btnSeatDraw.addEventListener("click", () => {
-    generateSeatDraw();
-    showToast("Seat draw generated");
-});
-
-btnSyncPlayersCount.addEventListener("click", () => {
-    createPlayersFromEntered();
-    showToast("Players synced");
-});
-
-chipIconModeSelect.addEventListener("change", () => {
-    chipIconMode = chipIconModeSelect.value;
-    renderChipConfig();
-    renderViewerChipBar();
-    pushStateToFirebase();
-});
-
-numChipsSelect.addEventListener("change", () => {
-    numChipColors = parseInt(numChipsSelect.value);
-    chipConfigs.length = numChipColors;
-    renderChipConfig();
-    renderViewerChipBar();
-    pushStateToFirebase();
-});
-
-soundToggle.dataset.enabled = "true";
-soundToggle.addEventListener("click", () => {
-    const enabled = soundToggle.dataset.enabled === "true";
-    soundToggle.dataset.enabled = enabled ? "false" : "true";
-    soundToggle.textContent = enabled ? "🔇 Sound: OFF" : "🔊 Sound: ON";
-});
-
-/* ---------------------------------------------------------
-   VIEWER MODE SETUP
---------------------------------------------------------- */
-function setupViewerMode() {
-    appContainer.classList.add("viewer-mode");
-    rightPanel.style.display = "none";
-    btnShowDetails.style.display = "inline-flex";
-    renderViewerChipBar();
-}
-
-/* ---------------------------------------------------------
-   INITIALIZATION
---------------------------------------------------------- */
-window.addEventListener("load", () => {
-    loadSavedConfigs();
-    loadDefaultStructure();
-    createPlayersFromEntered();
-    renderViewerChipBar();
-    initQRCode();
-
-    if (mode === "view") {
-        pauseTimer();
-        setupViewerMode();
-
-        const ref = db.ref("tournaments/" + tournamentId);
-        ref.on("value", snap => {
-            applyStateFromFirebase(snap.val());
-        });
-    } else {
-        pushStateToFirebase();
-    }
-});
-/* ---------------------------------------------------------
-   RENDER DETAILS OVERLAY (ALREADY CALLED IN SYNC)
---------------------------------------------------------- */
-// (Function already defined in Part 6 — included here for completeness)
-
-/* ---------------------------------------------------------
-   END OF SCRIPT
---------------------------------------------------------- */
-</script>
-
-</body>
-</html>
+            currentBlindsEl.text
