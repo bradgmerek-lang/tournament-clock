@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hold Em Tournament Timer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+    --bg: #050609;
+    --panel: #111824;
+    --accent: #00d4ff;
+    --accent-soft: rgba(0, 212, 255, 0.15);
+    --danger: #ff4b5c;
+    --text-main: #f5f7ff;
+    --text-sub: #a4b1ce;
+    --shadow-soft: 0 18px 40px rgba(0,0,0,0.45);
+    --radius: 14px;
+    --transition-fast: 0.2s ease-out;
+    --transition-med: 0.35s ease-out;
+    --level-highlight: #152338;
+    --break-accent: #ffcc33;
+    --overlay-bg: rgba(0,0,0,0.85);
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: radial-gradient(circle at top, #17233a 0, #050609 50%, #000 100%);
+    color: var(--text-main);
+}
+
+.app-container {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 18px;
+    padding: 24px;
+    width: 100%;
+    max-width: 1400px;
+}
+
+.panel {
+    background: linear-gradient(145deg, #0b1220, #050712);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    padding: 18px 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+    overflow: hidden;
+}
+
+.panel::before {
+    content: "";
+    position: absolute;
+    inset: -30%;
+    background: radial-gradient(circle at top, rgba(0,212,255,0.08), transparent 55%);
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.panel-inner { position: relative; z-index: 1; }
+
+h2, h3 {
+    margin: 0 0 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+h2 { font-size: 14px; color: var(--text-sub); }
+h3 { font-size: 13px; color: var(--text-sub); }
+
+/* Editable title */
+#editableTitle {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--accent);
+    background: transparent;
+    border: none;
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0;
+    margin: 0 0 4px 0;
+}
+#editableTitle:focus {
+    outline: 2px solid var(--accent);
+    background: rgba(0,212,255,0.08);
+}
+
+/* TIMER AREA */
+.main-timer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.timer-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.timer-display {
+    border-radius: 22px;
+    padding: 26px 20px;
+    background: radial-gradient(circle at top left, rgba(0,212,255,0.18), rgba(4,7,22,0.98));
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    transition:
+        background var(--transition-med),
+        border var(--transition-med),
+        box-shadow var(--transition-med),
+        transform 0.25s ease-out;
+}
+
+.timer-display.break-mode {
+    background: radial-gradient(circle at top left, rgba(255,204,51,0.18), rgba(34,22,2,0.98));
+    border-color: rgba(255,204,51,0.7);
+    box-shadow: 0 0 32px rgba(255,204,51,0.35);
+}
+
+.time-remaining-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--text-sub);
+    margin-bottom: 6px;
+}
+
+.time-remaining-value {
+    font-size: 80px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-shadow: 0 0 18px rgba(0,212,255,0.7);
+}
+
+.level-badge {
+    margin-top: 8px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    background: rgba(0,212,255,0.09);
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,212,255,0.35);
+}
+
+/* INFO CARDS */
+.info-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.info-card {
+    background: rgba(12,16,32,0.9);
+    border-radius: 12px;
+    padding: 10px 12px;
+    border: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.info-card.highlight {
+    background: var(--level-highlight);
+    box-shadow: 0 0 0 1px rgba(0,212,255,0.35);
+    transform: translateY(-2px);
+}
+
+.info-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-sub);
+}
+
+.info-value {
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.info-subvalue {
+    font-size: 11px;
+    color: var(--text-sub);
+}
+
+/* PLAYERS & CHIPS */
+.secondary-row {
+    display: grid;
+    grid-template-columns: 1.2fr 1.8fr;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.players-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.players-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+.players-label {
+    color: var(--text-sub);
+    text-transform: uppercase;
+    letter-spacing: 0.11em;
+    font-size: 11px;
+}
+
+.players-value {
+    font-weight: 700;
+    font-size: 32px;
+}
+
+.average-stack {
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--text-sub);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+.average-stack-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/* CHIP CONFIG – LARGE ICONS */
+.chip-config-card {
+    background: rgba(12,16,32,0.9);
+    border-radius: 12px;
+    padding: 10px 12px;
+    border: 1px solid rgba(255,255,255,0.04);
+    margin-top: 4px;
+}
+.chip-config-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+.chip-config-label-inline {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-sub);
+}
+.chip-config-row {
+    display: grid;
+    grid-template-columns: auto 1.2fr 1fr;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 6px;
+}
+.chip-icon-preview {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+}
+.chip-config-row input[type="number"] {
+    font-size: 24px;
+}
+
+/* QR PANEL */
+.qr-panel {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(0,212,255,0.25);
+    background: rgba(4,10,24,0.95);
+    text-align: center;
+    display: none;
+}
+.qr-panel h3 {
+    margin: 0 0 6px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+}
+
+/* BUTTONS */
+.controls-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+}
+
+button {
+    border: none;
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-weight: 600;
+    cursor: pointer;
+    background: rgba(255,255,255,0.08);
+    color: var(--text-main);
+    transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast), opacity var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+button:hover:not(:disabled) {
+    background: rgba(0,212,255,0.28);
+    box-shadow: 0 0 0 1px rgba(0,212,255,0.4);
+    transform: translateY(-1px);
+}
+
+button.primary {
+    background: linear-gradient(135deg, #00d4ff, #007bff);
+    color: #050609;
+    box-shadow: 0 12px 24px rgba(0,123,255,0.35);
+}
+
+button.danger {
+    background: rgba(255,75,92,0.16);
+    color: #ffd8dd;
+}
+
+button.small {
+    padding: 6px 10px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+}
+
+button.icon-only {
+    padding-inline: 8px;
+}
+
+button:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+/* SOUND TOGGLE */
+.sound-toggle {
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+/* LEVEL EDITOR */
+.editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+}
+
+.editor-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 230px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.level-row {
+    background: rgba(10,15,32,0.9);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 8px 10px;
+    display: grid;
+    grid-template-columns: auto 1.1fr 1.3fr 0.6fr auto;
+    gap: 6px;
+    align-items: center;
+    font-size: 12px;
+}
+
+.level-row.current {
+    background: rgba(0,212,255,0.14);
+    box-shadow: 0 0 0 1px rgba(0,212,255,0.45);
+}
+
+.level-row.break-row {
+    background: rgba(255,204,51,0.12);
+    border-color: rgba(255,204,51,0.6);
+}
+
+.level-index {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-sub);
+}
+
+.level-row input {
+    width: 100%;
+    padding: 5px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(3,6,24,0.95);
+    color: var(--text-main);
+    font-size: 11px;
+    text-align: center;
+}
+
+.level-actions {
+    display: inline-flex;
+    gap: 4px;
+}
+
+/* GENERIC FORM */
+.config-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 12px;
+}
+
+input[type="number"],
+input[type="text"],
+select,
+textarea {
+    padding: 6px 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(3,6,24,0.95);
+    color: var(--text-main);
+    font-size: 12px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 60px;
+    resize: vertical;
+}
+
+.config-label {
+    color: var(--text-sub);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 10px;
+}
+
+/* PRIZE / PAYOUT */
+.prize-panel {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.payout-row {
+    display: grid;
+    grid-template-columns: 70px 1fr auto;
+    gap: 8px;
+    align-items: center;
+    background: rgba(7,12,28,0.85);
+    padding: 6px 8px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+}
+
+.payout-row input {
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(3,6,24,0.95);
+    color: var(--text-main);
+    font-size: 12px;
+}
+
+.payout-display {
+    font-size: 12px;
+    color: var(--text-sub);
+}
+
+.payout-delete {
+    background: rgba(255,75,92,0.2);
+    color: #ffd8dd;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+/* SEAT DRAW */
+.seat-draw-panel {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.seat-draw-results {
+    margin-top: 10px;
+    max-height: 140px;
+    overflow-y: auto;
+    font-size: 12px;
+}
+
+.seat-draw-table {
+    margin-bottom: 8px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: rgba(10,15,28,0.9);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.seat-line {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* PLAYERS EDITOR */
+.players-editor-panel {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.players-editor-list {
+    margin-top: 8px;
+    max-height: 160px;
+    overflow-y: auto;
+    font-size: 12px;
+}
+
+.player-edit-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px;
+    align-items: center;
+    padding: 4px 6px;
+    border-radius: 8px;
+    background: rgba(7,12,28,0.85);
+    margin-bottom: 4px;
+}
+
+.player-edit-row.inactive {
+    opacity: 0.6;
+}
+
+.player-active-label {
+    font-size: 11px;
+    color: var(--text-sub);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* SUMMARY ROW */
+.summary-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.summary-item {
+    background: rgba(10,15,28,0.85);
+    border-radius: 999px;
+    padding: 6px 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+/* TOAST */
+.toast {
+    position: fixed;
+    bottom: 18px;
+    right: 18px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(3,13,32,0.94);
+    border: 1px solid rgba(0,212,255,0.4);
+    color: var(--text-main);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.6);
+    opacity: 0;
+    transform: translateY(18px);
+    pointer-events: none;
+    transition: opacity var(--transition-med), transform var(--transition-med);
+}
+
+.toast.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .app-container { 
+        grid-template-columns: 1fr; 
+        max-width: 800px; 
+    }
+}
+@media (max-width: 600px) {
+    .info-row { 
+        grid-template-columns: repeat(2, minmax(0,1fr)); 
+    }
+    .secondary-row { 
+        grid-template-columns: 1fr; 
+    }
+}
+
+/* LARGE SEAT DRAW (NEW TAB) */
+.large-seat-body {
+    background:#000;
+    color:#fff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    padding:20px;
+}
+.large-seat-title {
+    font-size:60px;
+    color:#00d4ff;
+    margin-bottom:20px;
+}
+.large-seat-table {
+    margin-bottom:40px;
+    padding:20px;
+    border:2px solid #00d4ff;
+    border-radius:12px;
+}
+.large-seat-heading {
+    font-size:36px;
+    margin-bottom:16px;
+}
+.large-seat-line {
+    display:flex;
+    justify-content:space-between;
+    font-size:42px;
+    padding:6px 0;
+}
+
+/* VIEWER MODE — BROADCAST LAYOUT */
+.viewer-chip-bar {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.viewer-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+}
+
+.viewer-chip-icon {
+    width: 80px;
+    height: 80px;
+    font-size: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.viewer-chip-value {
+    margin-top: 4px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* FULL-SCREEN DETAILS OVERLAY */
+#detailsOverlay {
+    position: fixed;
+    inset: 0;
+    background: var(--overlay-bg);
+    backdrop-filter: blur(6px);
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+#detailsOverlay.visible {
+    display: flex;
+}
+
+.details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.details-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.details-close {
+    font-size: 20px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.1);
+    cursor: pointer;
+}
+
+.details-section {
+    margin-top: 20px;
+    background: rgba(12,16,32,0.9);
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.details-section h4 {
+    margin: 0 0 12px;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+}
+
+.details-blind-row,
+.details-payout-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 16px;
+}
+
+.details-blind-row:last-child,
+.details-payout-row:last-child {
+    border-bottom: none;
+}
+
+/* SIMPLE VIEW MODE */
+.simple-view .panel:nth-child(2) {
+    display: none;
+}
+
+.simple-view .controls-row,
+.simple-view .summary-row {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* VIEWER MODE HIDES ALL CONTROLS */
+.viewer-mode button,
+.viewer-mode input,
+.viewer-mode select,
+.viewer-mode textarea {
+    pointer-events: none !important;
+    opacity: 0.0 !important;
+}
+
+.viewer-mode .qr-panel,
+.viewer-mode .editor-body,
+.viewer-mode .editor-header,
+.viewer-mode .prize-panel,
+.viewer-mode .seat-draw-panel,
+.viewer-mode .players-editor-panel,
+.viewer-mode .summary-row,
+.viewer-mode .controls-row {
+    display: none !important;
+}
+
+/* VIEWER MODE — SHOW DETAILS BUTTON */
+#btnShowDetails {
+    margin-top: 12px;
+    padding: 10px 18px;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    background: rgba(0,212,255,0.25);
+    border: 1px solid rgba(0,212,255,0.4);
+    border-radius: 999px;
+    cursor: pointer;
+    display: none;
+}
+
+.viewer-mode #btnShowDetails {
+    display: inline-flex;
+}
+</style>
+
+<!-- QR library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+<!-- Firebase compat libraries -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+</head>
+
+<body>
+<div class="app-container" id="appContainer">
+
+    <!-- LEFT SIDE (TIMER + VIEWER CHIP BAR + SHOW DETAILS BUTTON) -->
+    <div class="panel" id="leftPanel">
+        <div class="panel-inner main-timer">
+
+            <div class="timer-top-row">
+                <div>
+                    <input id="editableTitle" value="Hold Em Tournament Timer">
+                    <h2>Blinds structure & live level timer</h2>
+                </div>
+                <button id="soundToggle" class="sound-toggle">🔊 Sound: ON</button>
+            </div>
+
+            <div class="timer-display" id="timerDisplay">
+                <div class="timer-display-inner">
+                    <div class="time-remaining-label" id="timeLabel">Time remaining</div>
+                    <div class="time-remaining-value" id="timeRemaining">00:00</div>
+                    <div class="level-badge" id="levelBadge">
+                        Level <span id="currentLevelNumber">1</span> •
+                        <span id="currentLevelMinutes">20</span> min
+                    </div>
+                </div>
+            </div>
+
+            <!-- INFO CARDS -->
+            <div class="info-row">
+                <div class="info-card highlight" id="currentBlindsCard">
+                    <div class="info-label">Current</div>
+                    <div class="info-value" id="currentBlinds">25 / 50</div>
+                </div>
+                <div class="info-card" id="nextBlindsCard">
+                    <div class="info-label">Next</div>
+                    <div class="info-value" id="nextBlinds">50 / 100</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Progress</div>
+                    <div class="info-value" id="levelProgress">0%</div>
+                    <div class="info-subvalue" id="levelsCountInfo">Level 1 of 1</div>
+                </div>
+            </div>
+
+            <!-- PLAYERS + CHIPS -->
+            <div class="secondary-row">
+                <div class="info-card">
+                    <div class="info-label">Players</div>
+                    <div class="players-row">
+                        <div class="players-line">
+                            <span class="players-label">Entered</span>
+                            <span class="players-value" id="playersEntered">10</span>
+                        </div>
+                        <div class="players-line">
+                            <span class="players-label">Remaining</span>
+                            <span class="players-value" id="playersRemaining">10</span>
+                        </div>
+                        <div class="average-stack">
+                            Avg Stack:
+                            <span class="average-stack-value" id="avgStack">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CHIP CONFIG (Controller) -->
+                <div class="chip-config-card" id="chipConfigCard">
+                    <div class="chip-config-header">
+                        <div class="info-label">Chip colors & values</div>
+                        <div>
+                            <span class="chip-config-label-inline">Icon style</span>
+                            <select id="chipIconModeSelect" style="width:90px;">
+                                <option value="emoji">Emoji</option>
+                                <option value="svg">SVG</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="config-row" style="margin-top:4px;">
+                        <div>
+                            <span class="chip-config-label-inline"># of chip colors</span>
+                            <select id="numChipsSelect" style="width:70px;">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3" selected>3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="chipConfigRows" style="margin-top:8px;"></div>
+                </div>
+            </div>
+
+            <!-- VIEWER CHIP BAR (always visible in viewer mode) -->
+            <div id="viewerChipBar" class="viewer-chip-bar" style="display:none;"></div>
+
+            <!-- SHOW DETAILS BUTTON (viewer mode only) -->
+            <button id="btnShowDetails">Show Details</button>
+
+            <!-- CONTROLS -->
+            <div class="controls-row">
+                <button class="primary" id="btnStartPause">▶ Start</button>
+                <button id="btnReset">⏮ Reset</button>
+                <button id="btnPrevLevel" class="small">⬅ Prev</button>
+                <button id="btnNextLevel" class="small">Next ➡</button>
+            </div>
+
+            <div class="controls-row">
+                <div>
+                    <div class="config-label">Players entered</div>
+                    <input id="inputPlayersEntered" type="number" min="0" value="10" style="width:80px;">
+                </div>
+                <div>
+                    <div class="config-label">Starting stack</div>
+                    <input id="inputStartingStack" type="number" min="1" value="10000" style="width:100px;">
+                </div>
+                <div>
+                    <div class="config-label">Level length (min)</div>
+                    <input id="inputLevelLength" type="number" min="1" value="20" style="width:80px;">
+                </div>
+                <div>
+                    <div class="config-label">Duration (hrs)</div>
+                    <input id="inputDuration" type="number" min="1" step="0.5" value="4" style="width:80px;">
+                </div>
+            </div>
+
+            <div class="controls-row">
+                <div>
+                    <div class="config-label">Break every N levels</div>
+                    <input id="inputBreakFrequency" type="number" min="1" value="3" style="width:60px;">
+                </div>
+                <div>
+                    <div class="config-label">Break length (min)</div>
+                    <input id="inputBreakMinutes" type="number" min="1" value="10" style="width:60px;">
+                </div>
+                <div>
+                    <div class="config-label">Switch to 100 BB at</div>
+                    <input id="inputSwitchBB" type="number" min="100" value="400" style="width:80px;">
+                </div>
+                <button id="btnSuggestBlinds" class="small">Suggest Blinds</button>
+            </div>
+
+            <!-- QR toggle -->
+            <div class="controls-row">
+                <button id="btnToggleQR" class="small">📱 Show QR Code</button>
+            </div>
+            <div class="qr-panel" id="qrPanel">
+                <h3>Scan to open clock</h3>
+                <canvas id="qrCanvas" width="180" height="180" style="margin-top:4px;"></canvas>
+            </div>
+
+            <div class="summary-row">
+                <div class="summary-item" id="summaryEntryFee">Entry: $0</div>
+                <div class="summary-item" id="summaryPrizePool">Prize pool: $0</div>
+                <div class="summary-item" id="summaryPayouts">Payouts: 0 spots</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE (CONTROLLER ONLY) -->
+    <div class="panel" id="rightPanel">
+        <div class="panel-inner">
+            <div class="editor-header">
+                <div>
+                    <h2>Tournament structure</h2>
+                    <h3>Levels & breaks</h3>
+                </div>
+                <div>
+                    <button id="btnAddLevel" class="small">＋ Add level</button>
+                    <button id="btnInsertBreak" class="small">☕ Insert break</button>
+                </div>
+            </div>
+
+            <div class="editor-body" id="levelsContainer"></div>
+
+            <div class="config-row">
+                <div>
+                    <div class="config-label">Config name</div>
+                    <input type="text" id="configName" placeholder="My Home Game">
+                </div>
+                <div>
+                    <div class="config-label">Saved structures</div>
+                    <select id="savedConfigs">
+                        <option value="">Load structure…</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="config-row">
+                <button id="btnSaveConfig">💾 Save</button>
+                <button id="btnLoadConfig">📂 Load</button>
+                <button id="btnDeleteConfig" class="danger small">🗑 Delete</button>
+                <button id="btnLoadDefault" class="small">♻ Default</button>
+            </div>
+
+            <div class="prize-panel">
+                <h3>Prize pool & payouts</h3>
+
+                <div class="config-row">
+                    <div>
+                        <div class="config-label">Entry fee</div>
+                        <input type="number" id="inputEntryFee" placeholder="e.g. 50" style="width:120px;">
+                    </div>
+                    <div>
+                        <div class="config-label">Total prize money</div>
+                        <input type="number" id="inputPrizeMoney" placeholder="auto" style="width:140px;" disabled>
+                    </div>
+                    <div>
+                        <div class="config-label">Number of payouts</div>
+                        <input type="number" id="inputNumPayouts" value="3" min="1" style="width:80px;">
+                    </div>
+                </div>
+
+                <div class="config-row">
+                    <button id="btnRegenPayouts" class="small">↻ Regenerate model A payouts</button>
+                </div>
+
+                <div id="payoutList" style="margin-top:10px; max-height:160px; overflow-y:auto;"></div>
+            </div>
+
+            <div class="seat-draw-panel">
+                <h3>Random seat draw</h3>
+                <div class="config-row">
+                    <div>
+                        <div class="config-label">Tables</div>
+                        <input type="number" id="inputTables" value="2" min="1" style="width:60px;">
+                    </div>
+                    <div>
+                        <div class="config-label">Seats/table</div>
+                        <input type="number" id="inputSeatsPerTable" value="9" min="1" style="width:70px;">
+                    </div>
+                    <div>
+                        <div class="config-label">Players used</div>
+                        <span style="font-size:11px;color:var(--text-sub);">Active players only</span>
+                    </div>
+                </div>
+                <div class="config-row">
+                    <button id="btnSeatDraw">🎲 Generate seat draw</button>
+                </div>
+                <div class="seat-draw-results" id="seatDrawResults"></div>
+            </div>
+
+            <div class="players-editor-panel">
+                <h3>Players (names & busted)</h3>
+                <div class="config-row">
+                    <button id="btnSyncPlayersCount" class="small">↻ Sync with players entered</button>
+                    <span style="font-size:11px;color:var(--text-sub);">Uncheck to mark busted.</span>
+                </div>
+                <div class="players-editor-list" id="playersEditor"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- FULL-SCREEN DETAILS OVERLAY -->
+<div id="detailsOverlay">
+    <div class="details-header">
+        <div class="details-title">Tournament Details</div>
+        <div class="details-close" id="detailsClose">✕</div>
+    </div>
+
+    <div class="details-section" id="detailsChipSection">
+        <h4>Chip Values</h4>
+        <div id="detailsChipList"></div>
+    </div>
+
+    <div class="details-section" id="detailsBlindSection">
+        <h4>Blind Schedule</h4>
+        <div id="detailsBlindList"></div>
+    </div>
+
+    <div class="details-section" id="detailsPayoutSection">
+        <h4>Payout Structure</h4>
+        <div id="detailsPayoutList"></div>
+    </div>
+</div>
+
+<audio id="levelBeep"></audio>
+<audio id="warningBeep"></audio>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   HOLD'EM TOURNAMENT CLOCK — PHASE 1 CORE ENGINE
+   Control = authoritative
+   Viewer = read-only
+   Firebase Realtime Database
+========================================================= */
+
+/* ---------------- FIREBASE ---------------- */
+const firebaseConfig = {
+  apiKey: "AIzaSyC6PE5Ta0l5YIlqnSRvJSvwX0Tzv-MkZLw",
+  authDomain: "hold-em-tournament-live-feed.firebaseapp.com",
+  databaseURL: "https://hold-em-tournament-live-feed-default-rtdb.firebaseio.com/",
+  projectId: "hold-em-tournament-live-feed",
+  storageBucket: "hold-em-tournament-live-feed.firebasestorage.app",
+  messagingSenderId: "206496617680",
+  appId: "1:206496617680:web:6312034c2e5e92b1f7fad5"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+/* ---------------- URL + MODE ---------------- */
+const params = new URLSearchParams(window.location.search);
+const mode = params.get("mode") || "control";
+
+let tournamentId = params.get("tournament");
+if (!tournamentId) {
+  tournamentId = localStorage.getItem("tournamentId");
+  if (!tournamentId) {
+    tournamentId = Math.random().toString(36).slice(2,8).toUpperCase();
+    localStorage.setItem("tournamentId", tournamentId);
+  }
+}
+
+document.title = `Hold Em Tournament – ${tournamentId}`;
+const ref = db.ref("tournaments/" + tournamentId);
+
+/* ---------------- DOM ---------------- */
+const appContainer = document.getElementById("appContainer");
+const rightPanel = document.getElementById("rightPanel");
+
+const timeEl = document.getElementById("timeRemaining");
+const levelBadge = document.getElementById("levelBadge");
+const currentBlindsEl = document.getElementById("currentBlinds");
+const nextBlindsEl = document.getElementById("nextBlinds");
+const progressEl = document.getElementById("levelProgress");
+
+const btnStartPause = document.getElementById("btnStartPause");
+const btnReset = document.getElementById("btnReset");
+const btnPrev = document.getElementById("btnPrevLevel");
+const btnNext = document.getElementById("btnNextLevel");
+
+const qrCanvas = document.getElementById("qrCanvas");
+const qrPanel = document.getElementById("qrPanel");
+
+/* ---------------- STATE ---------------- */
+let localTick = null;
+
+/* ---------------- DEFAULT STRUCTURE ---------------- */
+const DEFAULT_LEVELS = [
+  { type:"level", sb:25, bb:50, ante:0, minutes:20 },
+  { type:"level", sb:50, bb:100, ante:0, minutes:20 },
+  { type:"level", sb:100, bb:200, ante:0, minutes:20 },
+  { type:"break", minutes:10 },
+  { type:"level", sb:200, bb:400, ante:0, minutes:20 }
+];
+
+/* ---------------- UTIL ---------------- */
+function fmt(sec) {
+  sec = Math.max(0, sec);
+  const m = Math.floor(sec/60);
+  const s = sec % 60;
+  return `${m.toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
+}
+
+/* ---------------- TIMER CALC ---------------- */
+function calcSecondsLeft(timer) {
+  if (!timer.running) return timer.remaining;
+  const elapsed = Math.floor((Date.now() - timer.startedAt)/1000);
+  return Math.max(0, timer.remaining - elapsed);
+}
+
+/* ---------------- RENDER ---------------- */
+function render(state) {
+  if (!state) return;
+
+  const { levels, timer } = state;
+  const lvl = levels[timer.levelIndex];
+  const next = levels[timer.levelIndex + 1];
+
+  const secondsLeft = calcSecondsLeft(timer);
+  timeEl.textContent = fmt(secondsLeft);
+
+  const total = lvl.minutes * 60;
+  const pct = Math.floor((1 - secondsLeft / total) * 100);
+  progressEl.textContent = `${pct}%`;
+
+  currentBlindsEl.textContent =
+    lvl.type === "break"
+      ? "BREAK"
+      : `${lvl.sb} / ${lvl.bb}${lvl.ante ? " / " + lvl.ante : ""}`;
+
+  nextBlindsEl.textContent = next
+    ? (next.type === "break"
+        ? "BREAK"
+        : `${next.sb} / ${next.bb}${next.ante ? " / " + next.ante : ""}`)
+    : "--";
+}
+
+/* ---------------- CONTROL TIMER ---------------- */
+function startTimer(state) {
+  if (state.timer.running) return;
+
+  ref.update({
+    "timer/running": true,
+    "timer/startedAt": Date.now()
+  });
+}
+
+function pauseTimer(state) {
+  const remaining = calcSecondsLeft(state.timer);
+  ref.update({
+    "timer/running": false,
+    "timer/remaining": remaining
+  });
+}
+
+function resetTimer(state) {
+  const lvl = state.levels[state.timer.levelIndex];
+  ref.update({
+    timer: {
+      running: false,
+      levelIndex: state.timer.levelIndex,
+      remaining: lvl.minutes * 60,
+      startedAt: null
+    }
+  });
+}
+
+function advanceLevel(state, dir) {
+  let idx = state.timer.levelIndex + dir;
+  idx = Math.max(0, Math.min(idx, state.levels.length - 1));
+  const lvl = state.levels[idx];
+
+  ref.update({
+    timer: {
+      running: false,
+      levelIndex: idx,
+      remaining: lvl.minutes * 60,
+      startedAt: null
+    }
+  });
+}
+
+/* ---------------- VIEWER LOCKDOWN ---------------- */
+if (mode === "view") {
+  appContainer.classList.add("viewer-mode");
+  rightPanel.style.display = "none";
+  btnStartPause.style.display = "none";
+  btnReset.style.display = "none";
+  btnPrev.style.display = "none";
+  btnNext.style.display = "none";
+}
+
+/* ---------------- FIREBASE LISTENER ---------------- */
+ref.on("value", snap => {
+  const state = snap.val();
+  if (!state) return;
+
+  render(state);
+
+  if (mode === "control") {
+    btnStartPause.textContent = state.timer.running ? "⏸ Pause" : "▶ Start";
+  }
+
+  if (mode === "control" && state.timer.running) {
+    clearInterval(localTick);
+    localTick = setInterval(() => {
+      const left = calcSecondsLeft(state.timer);
+      if (left <= 0) {
+        clearInterval(localTick);
+        advanceLevel(state, 1);
+      }
+    }, 1000);
+  }
+});
+
+/* ---------------- BUTTONS ---------------- */
+btnStartPause.onclick = async () => {
+  const snap = await ref.get();
+  const state = snap.val();
+  if (!state) return;
+  state.timer.running ? pauseTimer(state) : startTimer(state);
+};
+
+btnReset.onclick = async () => {
+  const snap = await ref.get();
+  resetTimer(snap.val());
+};
+
+btnPrev.onclick = async () => {
+  const snap = await ref.get();
+  advanceLevel(snap.val(), -1);
+};
+
+btnNext.onclick = async () => {
+  const snap = await ref.get();
+  advanceLevel(snap.val(), 1);
+};
+
+/* ---------------- INIT ---------------- */
+async function init() {
+  const snap = await ref.get();
+  if (!snap.exists() && mode === "control") {
+    ref.set({
+      levels: DEFAULT_LEVELS,
+      timer: {
+        running: false,
+        levelIndex: 0,
+        remaining: DEFAULT_LEVELS[0].minutes * 60,
+        startedAt: null
+      }
+    });
+  }
+
+  const base = location.origin + location.pathname;
+  const qrUrl = `${base}?tournament=${tournamentId}&mode=view`;
+  new QRious({
+    element: qrCanvas,
+    value: qrUrl,
+    size: 180,
+    foreground: "#00d4ff"
+  });
+}
+
+init();
+</script>
+
+</body>
+</html>
